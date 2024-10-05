@@ -8,7 +8,10 @@ function Register() {
     name: Yup.string().required("name is required"),
     password: Yup.string()
       .required("password is required")
-      .matches(/^[A-Z][a-zA-Z0-9]{7,}$/, "password is not valid"),
+      .matches(
+        /^[A-Z][a-zA-Z0-9]{7,}$/,
+        "password must be start with capital letter and min length is 8 "
+      ),
     rePassword: Yup.string()
       .required("re-password is required")
       .oneOf([Yup.ref("password")], "password and repassword is not match"),
