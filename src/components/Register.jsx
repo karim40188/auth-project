@@ -6,7 +6,9 @@ import registerImg from "../assets/register.jpeg";
 
 function Register() {
   let validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .min(3, "min length is 3 character"),
     password: Yup.string()
       .required("Password is required")
       .matches(
@@ -25,7 +27,10 @@ function Register() {
       ),
     phone: Yup.string()
       .required("Phone number is required")
-      .matches(/^01[0125][0-9]{8}$/, "Please enter a valid Egyptian number. Example: 01012345678"),
+      .matches(
+        /^01[0125][0-9]{8}$/,
+        "Please enter a valid Egyptian number. Example: 01012345678"
+      ),
     address: Yup.string().required("Address is required"),
     city: Yup.string().required("City is required"),
     dateOfBirth: Yup.date().required("Date of birth is required"),
@@ -51,7 +56,13 @@ function Register() {
   });
 
   return (
-    <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           height: { xs: "300px", md: "120vh" },
@@ -104,7 +115,9 @@ function Register() {
           }}
           onSubmit={formik.handleSubmit}
         >
-          <Typography variant="h3" sx={{fontWeight:'600'}}>Register</Typography>
+          <Typography variant="h3" sx={{ fontWeight: "600" }}>
+            Register
+          </Typography>
           <TextField
             label="Name"
             name="name"
@@ -114,7 +127,7 @@ function Register() {
           {formik.errors.name && formik.touched.name && (
             <Box sx={{ color: "red" }}>{formik.errors.name}</Box>
           )}
-          
+
           <TextField
             label="Password"
             name="password"
@@ -125,7 +138,7 @@ function Register() {
           {formik.errors.password && formik.touched.password && (
             <Box sx={{ color: "red" }}>{formik.errors.password}</Box>
           )}
-          
+
           <TextField
             label="Re-password"
             name="rePassword"
@@ -136,7 +149,7 @@ function Register() {
           {formik.errors.rePassword && formik.touched.rePassword && (
             <Box sx={{ color: "red" }}>{formik.errors.rePassword}</Box>
           )}
-          
+
           <TextField
             label="Email"
             name="email"
@@ -146,7 +159,7 @@ function Register() {
           {formik.errors.email && formik.touched.email && (
             <Box sx={{ color: "red" }}>{formik.errors.email}</Box>
           )}
-          
+
           <TextField
             label="Phone Number"
             name="phone"
@@ -156,7 +169,7 @@ function Register() {
           {formik.errors.phone && formik.touched.phone && (
             <Box sx={{ color: "red" }}>{formik.errors.phone}</Box>
           )}
-          
+
           <TextField
             label="Address"
             name="address"
