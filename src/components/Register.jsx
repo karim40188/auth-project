@@ -1,33 +1,37 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import registerImg from "../assets/register.jpeg";
+
 function Register() {
   let validationSchema = Yup.object({
-    name: Yup.string().required("name is required"),
+    name: Yup.string().required("Name is required"),
     password: Yup.string()
-      .required("password is required")
+      .required("Password is required")
       .matches(
         /^[A-Z][a-zA-Z0-9]{7,}$/,
-        "password must be start with capital letter and min length is 8 "
+        "Password must start with a capital letter and be at least 8 characters. Example: ZyxwvuT9"
       ),
     rePassword: Yup.string()
-      .required("re-password is required")
-      .oneOf([Yup.ref("password")], "password and repassword is not match"),
+      .required("Re-password is required")
+      .oneOf([Yup.ref("password")], "Password and re-password do not match"),
     email: Yup.string()
-      .required("email is required")
-      .email("invalid email format")
+      .required("Email is required")
+      .email("Invalid email format")
       .matches(
-        /^[A-Za-z0-9._%+-]+@(gmail|yahoo|hotmail)\.com$/,
-        "please put a valid email"
+        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+        "Please enter a valid email. Example: example@example.com"
       ),
-
     phone: Yup.string()
-      .required("phone is required")
-      .matches(/01[0125][0,9]{8}/, "please put a egyption number"),
-    country: Yup.string().required("country is required"),
+      .required("Phone number is required")
+      .matches(/^01[0125][0-9]{8}$/, "Please enter a valid Egyptian number. Example: 01012345678"),
+    address: Yup.string().required("Address is required"),
+    city: Yup.string().required("City is required"),
+    dateOfBirth: Yup.date().required("Date of birth is required"),
+    country: Yup.string().required("Country is required"),
   });
+
   let formik = useFormik({
     initialValues: {
       name: "",
@@ -35,6 +39,9 @@ function Register() {
       rePassword: "",
       email: "",
       phone: "",
+      address: "",
+      city: "",
+      dateOfBirth: "",
       country: "",
     },
     validationSchema,
@@ -44,8 +51,15 @@ function Register() {
   });
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ height: "100vh", display: "flex", position: "relative" }}>
+    <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center" }}>
+      <Box
+        sx={{
+          height: { xs: "300px", md: "120vh" },
+          width: { xs: "100%", md: "50%" },
+          position: "relative",
+          display: { xs: "none", md: "flex" },
+        }}
+      >
         <Box
           sx={{
             backgroundColor: "rgba(0,0,0,0.7)",
@@ -60,7 +74,7 @@ function Register() {
           component="img"
           sx={{
             width: "100%",
-            // height: "100%",
+            height: "100%",
             backgroundSize: "cover",
             objectFit: "cover",
             backgroundPosition: "center",
@@ -71,112 +85,118 @@ function Register() {
       <Box
         sx={{
           display: "flex",
-          width: "100%",
-          justfiyContent: "center",
+          width: { xs: "100%", md: "50%" },
+          justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
+          height: { xs: "auto", md: "100vh" },
         }}
       >
         <Box
           component="form"
           sx={{
-            width: "70%",
+            width: { xs: "90%", sm: "80%", md: "80%" },
             display: "flex",
             flexDirection: "column",
             gap: "10px",
             mx: "auto",
+            p: 2,
+            boxShadow: { xs: "none", md: "0 0 10px rgba(0,0,0,0.1)" },
           }}
           onSubmit={formik.handleSubmit}
         >
+          <Typography variant="h3" sx={{fontWeight:'600'}}>Register</Typography>
           <TextField
-            sx={{ width: "100%", borderRadius: "30px" }}
             label="Name"
             name="name"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.name && formik.touched.name ? (
-            <Box sx={{ color: "red", textTransform: "capitalize" }}>
-              {" "}
-              {formik.errors.name}{" "}
-            </Box>
-          ) : (
-            ""
+          {formik.errors.name && formik.touched.name && (
+            <Box sx={{ color: "red" }}>{formik.errors.name}</Box>
           )}
+          
           <TextField
-            sx={{ width: "100%" }}
             label="Password"
             name="password"
+            type="password"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.password && formik.touched.password ? (
-            <Box sx={{ color: "red", textTransform: "capitalize" }}>
-              {" "}
-              {formik.errors.password}{" "}
-            </Box>
-          ) : (
-            ""
+          {formik.errors.password && formik.touched.password && (
+            <Box sx={{ color: "red" }}>{formik.errors.password}</Box>
           )}
+          
           <TextField
-            sx={{ width: "100%" }}
-            label="re-Password"
+            label="Re-password"
             name="rePassword"
+            type="password"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.rePassword && formik.touched.rePassword ? (
-            <Box sx={{ color: "red", textTransform: "capitalize" }}>
-              {" "}
-              {formik.errors.rePassword}{" "}
-            </Box>
-          ) : (
-            ""
+          {formik.errors.rePassword && formik.touched.rePassword && (
+            <Box sx={{ color: "red" }}>{formik.errors.rePassword}</Box>
           )}
+          
           <TextField
-            sx={{ width: "100%" }}
             label="Email"
             name="email"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.email && formik.touched.email ? (
-            <Box sx={{ color: "red", textTransform: "capitalize" }}>
-              {" "}
-              {formik.errors.email}{" "}
-            </Box>
-          ) : (
-            ""
+          {formik.errors.email && formik.touched.email && (
+            <Box sx={{ color: "red" }}>{formik.errors.email}</Box>
           )}
+          
           <TextField
-            sx={{ width: "100%" }}
             label="Phone Number"
             name="phone"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.phone && formik.touched.phone ? (
-            <Box sx={{ color: "red", textTransform: "capitalize" }}>
-              {" "}
-              {formik.errors.phone}{" "}
-            </Box>
-          ) : (
-            ""
+          {formik.errors.phone && formik.touched.phone && (
+            <Box sx={{ color: "red" }}>{formik.errors.phone}</Box>
           )}
+          
           <TextField
-            sx={{ width: "100%" }}
+            label="Address"
+            name="address"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.errors.address && formik.touched.address && (
+            <Box sx={{ color: "red" }}>{formik.errors.address}</Box>
+          )}
+
+          <TextField
+            label="City"
+            name="city"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.errors.city && formik.touched.city && (
+            <Box sx={{ color: "red" }}>{formik.errors.city}</Box>
+          )}
+
+          <TextField
+            label="Date of Birth"
+            name="dateOfBirth"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.errors.dateOfBirth && formik.touched.dateOfBirth && (
+            <Box sx={{ color: "red" }}>{formik.errors.dateOfBirth}</Box>
+          )}
+
+          <TextField
             label="Country"
             name="country"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.country && formik.touched.country ? (
-            <Box sx={{ color: "red", textTransform: "capitalize" }}>
-              {" "}
-              {formik.errors.country}{" "}
-            </Box>
-          ) : (
-            ""
+          {formik.errors.country && formik.touched.country && (
+            <Box sx={{ color: "red" }}>{formik.errors.country}</Box>
           )}
 
           <Button
