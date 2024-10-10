@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import Register from "./components/Register";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import QrCode from "./components/QrCode";
+import Layout from "./components/Layout/Layout";
 function App() {
   let router = createBrowserRouter([
-    { path: "/", element: <QrCode /> },
+    { path: "/", element:<Layout/> },
   ]);
   return (
     <Box>

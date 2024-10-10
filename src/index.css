@@ -3,3 +3,15 @@
   margin:0;
   box-sizing: border-box;
 }
+
+body{
+  direction:rtl;
+}
+
+li{
+  list-style-type: none;
+}
+a{
+  text-decoration: none;
+
+}
